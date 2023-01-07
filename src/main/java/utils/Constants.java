@@ -1,7 +1,5 @@
 package utils;
 
-import javax.swing.*;
-
 public final class Constants {
 
     //game value
@@ -12,5 +10,4 @@ public final class Constants {
 
 
     //icons
-    public static final String FILE_PATH = "/icon_game.png";
 }

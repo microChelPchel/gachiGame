@@ -12,10 +12,10 @@ public class Game implements Runnable {
     private Thread gameThread;
 
     public Game(){
+        player = new Player(100,100,50,50);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
-        player = new Player(100,100,50,50);
         startGameLoop();
     }
 
