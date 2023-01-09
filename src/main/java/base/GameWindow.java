@@ -10,7 +10,7 @@ public class GameWindow {
 
     public GameWindow(GamePanel gamePanel) {
         jframe = new JFrame();
-        jframe.setIconImage(new ImageIcon(BaseHelper.GetSpriteAtlas(BaseHelper.PLAYER_IDLE)).getImage());
+        jframe.setIconImage(new ImageIcon(BaseHelper.GetSpriteAtlas(BaseHelper.ICON_GAME)).getImage());
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(gamePanel);
         jframe.setLocationRelativeTo(null);

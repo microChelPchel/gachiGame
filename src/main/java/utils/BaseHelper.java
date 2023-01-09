@@ -9,6 +9,7 @@ public abstract class BaseHelper {
 
     public static final String ICON_GAME = "icon_game.png";
     public static final String PLAYER_IDLE = "idle_player.png";
+    public static final String PLAYER_RUN = "run_player.png";
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;

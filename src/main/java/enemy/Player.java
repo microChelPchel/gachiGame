@@ -5,14 +5,21 @@ import utils.BaseHelper;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static utils.AnimationPlayerConstants.IDLE;
+import static utils.AnimationPlayerConstants.RUN;
+
 public class Player extends Entity {
 
     private boolean up;
     private boolean left;
     private boolean down;
     private boolean right;
+    private boolean moving = false;
+
+    private int playerAction = IDLE.getValue();
     private float playerSpeed = 1.5f;
     private BufferedImage[] animationsIdle;
+    private BufferedImage[] animationsRun;
     private int aniTick, aniIndex, aniSpeed = 25;
 
     public Player(float x, float y, float width, float height) {
@@ -22,9 +29,24 @@ public class Player extends Entity {
     }
 
     public void render(Graphics graphics) {
+        //render to factory class and create in enum two params
+        BufferedImage [] currentAnimations = null;
+        switch (playerAction) {
+            case 1:
+                currentAnimations = animationsRun;
+            case 0:
+            default:
+                currentAnimations = animationsIdle;
+        }
+
+
         //update x,y?
-        graphics.drawRect((int) (x + hitbox.x), (int) (y + hitbox.y), (int) hitbox.width, (int) hitbox.height);
-        graphics.drawImage(animationsIdle[aniIndex],300,300,null);
+        graphics.drawImage(currentAnimations[aniIndex],
+                (int) (x + hitbox.x),
+                (int) (y + hitbox.y),
+                (int) hitbox.width,
+                (int) hitbox.height,
+                null);
     }
 
     private void updateAnimation() {
@@ -37,15 +59,38 @@ public class Player extends Entity {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if(aniIndex>=4) {
-                aniIndex=0;
+            if (aniIndex >= 4) {
+                aniIndex = 0;
             }
         }
+    }
 
+    public void update() {
+        updatePosition();
+        updateAnimation();
+        setAnimation();
+    }
+
+    private void setAnimation() {
+        int startAni = playerAction;
+        if (moving) {
+            playerAction = RUN.getValue();
+        } else {
+            playerAction = IDLE.getValue();
+        }
+
+        if (startAni != playerAction)
+            resetAniTick();
+    }
+
+    private void resetAniTick() {
+        aniTick = 0;
+        aniIndex = 0;
     }
 
     private void loadAnimation() {
         loadIdleAni();
+        loadRunAni();
     }
 
     private void loadIdleAni() {
@@ -55,12 +100,15 @@ public class Player extends Entity {
             animationsIdle[i] = img.getSubimage(i * 200, 0, 200, 200);
     }
 
-    public void update() {
-        updatePosition();
-        updateAnimation();
+    private void loadRunAni() {
+        BufferedImage img = BaseHelper.GetSpriteAtlas(BaseHelper.PLAYER_RUN);
+        animationsRun = new BufferedImage[8];
+        for (int i = 0; i < animationsRun.length; i++)
+            animationsRun[i] = img.getSubimage(i * 200, 0, 200, 200);
     }
 
     private void updatePosition() {
+        moving = false;
         float xSpeed = 0;
         float ySpeed = 0;
         if (!right && !left && !up && !down) {
@@ -69,14 +117,16 @@ public class Player extends Entity {
 
         if (left && !right) {
             xSpeed -= playerSpeed;
+            moving = true;
         } else if (right && !left) {
             xSpeed += playerSpeed;
+            moving = true;
         }
 
         if (down && !up) {
-            ySpeed -= playerSpeed;
-        } else if (!down && up) {
             ySpeed += playerSpeed;
+        } else if (!down && up) {
+            ySpeed -= playerSpeed;
         }
 
         //Should check collision
