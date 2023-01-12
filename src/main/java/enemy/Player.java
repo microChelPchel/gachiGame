@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 
 import static utils.AnimationPlayerConstants.IDLE;
 import static utils.AnimationPlayerConstants.RUN;
+import static utils.Constants.PLAYER_IDLE;
+import static utils.Constants.PLAYER_RUN;
 
 public class Player extends Entity {
 
@@ -94,14 +96,14 @@ public class Player extends Entity {
     }
 
     private void loadIdleAni() {
-        BufferedImage img = BaseHelper.GetSpriteAtlas(BaseHelper.PLAYER_IDLE);
+        BufferedImage img = BaseHelper.GetSpriteAtlas(PLAYER_IDLE);
         animationsIdle = new BufferedImage[4];
         for (int i = 0; i < animationsIdle.length; i++)
             animationsIdle[i] = img.getSubimage(i * 200, 0, 200, 200);
     }
 
     private void loadRunAni() {
-        BufferedImage img = BaseHelper.GetSpriteAtlas(BaseHelper.PLAYER_RUN);
+        BufferedImage img = BaseHelper.GetSpriteAtlas(PLAYER_RUN);
         animationsRun = new BufferedImage[8];
         for (int i = 0; i < animationsRun.length; i++)
             animationsRun[i] = img.getSubimage(i * 200, 0, 200, 200);

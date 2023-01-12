@@ -4,10 +4,10 @@ import enemy.Player;
 
 import java.awt.*;
 
-public class Game implements Runnable {
+import static utils.Constants.FPS_SET;
+import static utils.Constants.UPS_SET;
 
-    private final int FPS_SET = 120;
-    private final int UPS_SET =200;
+public class Game implements Runnable {
 
     private GamePanel gamePanel;
     private GameWindow gameWindow;
