@@ -8,10 +8,11 @@ public final class Constants {
     public static final int FPS_SET = 120;
     public static final int UPS_SET =200;
 
-
     //sprites
     public static final String PLAYER_IDLE = "idle_player.png";
     public static final String PLAYER_RUN = "run_player.png";
+    public static final String PLAYER_JUMP = "jump_player.png";
+    public static final String PLAYER_FALL = "fall_player.png";
 
     //icons
     public static final String ICON_GAME = "icon_game.png";
