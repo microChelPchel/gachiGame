@@ -1,12 +1,12 @@
 package enemy;
 
+import utils.AnimationPlayerConstants;
 import utils.BaseHelper;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static utils.AnimationPlayerConstants.IDLE;
-import static utils.AnimationPlayerConstants.RUN;
+import static utils.AnimationPlayerConstants.*;
 import static utils.Constants.PLAYER_IDLE;
 import static utils.Constants.PLAYER_RUN;
 
@@ -17,8 +17,9 @@ public class Player extends Entity {
     private boolean down;
     private boolean right;
     private boolean moving = false;
+    private boolean attacking = false;
 
-    private int playerAction = IDLE.getValue();
+    private int playerAction = IDLE;
     private float playerSpeed = 1.5f;
     private BufferedImage[] animationsIdle;
     private BufferedImage[] animationsRun;
@@ -41,7 +42,6 @@ public class Player extends Entity {
                 currentAnimations = animationsIdle;
         }
 
-
         //update x,y?
         graphics.drawImage(currentAnimations[aniIndex],
                 (int) (x + hitbox.x),
@@ -61,8 +61,9 @@ public class Player extends Entity {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= 4) {
+            if (aniIndex >= AnimationPlayerConstants.GetSpriteAmount(playerAction)) {
                 aniIndex = 0;
+                attacking = false;
             }
         }
     }
@@ -76,9 +77,13 @@ public class Player extends Entity {
     private void setAnimation() {
         int startAni = playerAction;
         if (moving) {
-            playerAction = RUN.getValue();
+            playerAction = RUN;
         } else {
-            playerAction = IDLE.getValue();
+            playerAction = IDLE;
+        }
+
+        if(attacking){
+            playerAction = ATTACK;
         }
 
         if (startAni != playerAction)
@@ -135,6 +140,10 @@ public class Player extends Entity {
         hitbox.x += xSpeed;
         hitbox.y += ySpeed;
 
+    }
+
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
     }
 
     public boolean isUp() {
